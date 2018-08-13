@@ -1,19 +1,41 @@
-#include<stdio.h>
-#include "interface.h"
+/*************************************************************************
+    > File Name: perftool.cpp
+ ************************************************************************/
 
-int main(int argc, char** argv)
+#include <iostream>
+#include <thread>
+#include "../library/inc/gtmemory.h"
+#include "../library/inc/sysmemory.h"
+#include "../library/inc/cpu.h"
+#include "../library/inc/gtinfo.h"
+#include "../library/inc/mediacapability.h"
+
+using namespace std;
+
+int main()
 {
-    int ret = 0;
-    cpuinfo info = {};
+    bool ret = true;
+    GTMemory  gtmem;
+    GtInfo    gpu;
+    CpuInfo   cpu;
+    SysMemory sysmem;
+    MediaCapability mediaCap;
 
-    ret = get_cpu_device_info(&info);
-    if(ret != 0)
+    std::chrono::milliseconds dura(1000);
+    
+    while(true)
     {
-        printf("ERROR: failed to get cpu info!\n");
-        return ret;
-    }
+        std::cout << "\33[2J\033[0m" << std::endl;
+        cpu.Dump();
+        sysmem.Dump();
 
-    printf("model = %s\n", info.model_name.c_str());
+        gpu.Dump();
+        gtmem.Dump();
+    
+        mediaCap.Dump();
+
+        std::this_thread::sleep_for(dura);
+    }
 
     return 0;
 }

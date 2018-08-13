@@ -1,27 +1,30 @@
 cmake_minimum_required(VERSION 2.8)
 
-project( tele )
+project( intem )
 
 set(SOURCES_
-    cpu_device.cpp
-    gpu_compute_device.cpp 
-    gpu_media_device.cpp 
-    platform_memory.cpp 
-    interface.cpp
+    cpu.cpp
+    gtinfo.cpp
+    gtmemory.cpp
+    mediacapability.cpp
+    sysmemory.cpp
  )
 
 set(HEADERS_
-    cpu_device.h
-    gpu_compute_device.h 
-    gpu_media_device.h 
-    platform_memory.h 
-    interface.h
+    inc/cpu.h
+    inc/gtinfo.h
+    inc/gtmemory.h
+    inc/mediacapability.h
+    inc/sysmemory.h 
+    inc/util.h
 )
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
 
-add_library(tele SHARED ${SOURCES_} ${HEADERS_})
+add_library(intem SHARED ${SOURCES_} ${HEADERS_})
 
-#MESSAGE( STATUS "variable is: " ${SOURCES_} )
+set_target_properties(intem PROPERTIES LINKER_LANGUAGE CXX)
 
-set_target_properties(tele PROPERTIES LINKER_LANGUAGE CXX)
+target_link_libraries(intem va va-drm)
+
+include_directories("./inc")
