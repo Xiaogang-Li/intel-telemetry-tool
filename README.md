@@ -8,3 +8,5 @@ a library for measuring the state of intel devices (CPU, GPU, Memory, etc.)
 ### get CPU device caps/state
 
 ### get platform caps/state
+
+![screenshot](https://github.com/Xiaogang-Li/intel-telemetry-tool/blob/master/screenshot.png)
