@@ -18,6 +18,7 @@ $ cd build/tool
 $ cmake ../../tool
 $ make
 
+
 Or you can run build.sh directly.
 
 
