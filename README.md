@@ -1,12 +1,27 @@
 # intel-telemetry-tool
 a library for measuring the state of intel devices (CPU, GPU, Memory, etc.)
 
-### get GPU compute device caps/state
+This tool has some dependencies, please install the following dependencies before build this tool.
 
-### get GPU media device caps/state
+	• libdrm https://anongit.freedesktop.org/git/mesa/drm.git
+	• libva https://github.com/intel/libva.git
+	• Intel media driver 
+	libdrm 	https://anongit.freedesktop.org/git/mesa/drm.git
+	libva 	https://github.com/intel/libva.git
+	Intel media driver	
+	OpenCL	https://github.com/intel/compute-runtime/blob/master/documentation/BUILD_Ubuntu.md
+	
+	
+Library and Tool build:
+$ cd build/lib
+$ cmake ../../library
+$ make
 
-### get CPU device caps/state
+$ cd build/tool
+$ cmake ../../tool
+$ make
 
-### get platform caps/state
+Or you can run build.sh directly.
+
 
 ![screenshot](https://github.com/Xiaogang-Li/intel-telemetry-tool/blob/master/screenshot.png)
