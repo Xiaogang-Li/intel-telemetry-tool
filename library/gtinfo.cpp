@@ -2,12 +2,14 @@
 #include <sstream>
 #include <exception>
 #include <iomanip>
+#include "util.h"
 #include "gtinfo.h"
 
 const std::string GtInfo::m_curFreqPath = "/sys/devices/pci0000:00/0000:00:02.0/drm/card0/gt_cur_freq_mhz";
 const std::string GtInfo::m_maxFreqPath = "/sys/devices/pci0000:00/0000:00:02.0/drm/card0/gt_max_freq_mhz";
 const std::string GtInfo::m_minFreqPath = "/sys/devices/pci0000:00/0000:00:02.0/drm/card0/gt_min_freq_mhz";
 const std::string GtInfo::m_boostFreqPath = "/sys/devices/pci0000:00/0000:00:02.0/drm/card0/gt_boost_freq_mhz";
+const std::string GtInfo::m_capsPath    = "/sys/kernel/debug/dri/0/i915_capabilities";
 
 GtInfo::GtInfo()
 {
@@ -23,6 +25,28 @@ GtInfo::GtInfo()
         std::cerr << e.what() << std::endl;
         std::cerr << "******************************************************" << std::endl;
     }
+
+    try
+    {
+        std::ifstream ifsCaps;
+        std::string line;
+        ifsCaps.open(m_capsPath,  std::ifstream::in);
+        if (m_ifsCur.good())
+        {
+            while( getline(ifsCaps, line) )
+            {
+                ReadGeneration(line);
+                ReadPlatform(line);
+            }
+        }
+        ifsCaps.close();
+    }
+    catch(std::exception& e)
+    {
+        std::cerr << "******** Error when get GT capability ***************" << std::endl;
+        std::cerr << e.what() << std::endl;
+        std::cerr << "******************************************************" << std::endl;
+    }
 }
 
 GtInfo::~GtInfo()
@@ -31,6 +55,22 @@ GtInfo::~GtInfo()
     m_ifsMax.close();
     m_ifsMin.close();
     m_ifsBoost.close();
+}
+
+void GtInfo::ReadGeneration(const std::string& rawString)
+{
+    if (Util::IsInclude(rawString, "gen") && m_generation.empty())
+    {
+        m_generation = Util::GetSringDataFromRaw(rawString);
+    }
+}
+
+void GtInfo::ReadPlatform(const std::string& rawString)
+{
+    if (Util::IsInclude(rawString, "platform") && m_platform.empty())
+    {
+        m_platform = Util::GetSringDataFromRaw(rawString);
+    }
 }
 
 uint32_t GtInfo::GetFrequency()
@@ -134,13 +174,16 @@ void GtInfo::Dump()
     SetMaxFrequency(950);
     SetMinFrequency(350);
 
-    std::cout << std::endl << " --------------------------  GT Info ---------------------------" << std::endl;
+    std::cout << std::endl << " +-------------------------  GT Info --------------------------+" << std::endl;
     std::cout << " |" << std::left << std::setw(61) << " " << "|" << std::endl;
 
+    std::cout << " | " << "GT Generation    : " << std::left << std::setw(41)     << GetGeneration()         << "|" << std::endl;
+    std::cout << " | " << "GT Platform      : " << std::left << std::setw(41)     << GetPlatform()           << "|" << std::endl;
+    std::cout << " |" << std::left << std::setw(61) << " " << "|" << std::endl;
     std::cout << " | " << "GT Max Frequency : " << GetMaxFrequency() << std::left << std::setw(38) << " MHz" << "|" << std::endl;
     std::cout << " | " << "GT Min Frequency : " << GetMinFrequency() << std::left << std::setw(38) << " MHz" << "|" << std::endl;
     std::cout << " | " << "GT Cur Frequency : " << GetFrequency()    << std::left << std::setw(38) << " MHz" << "|" << std::endl;
 
     std::cout << " |" << std::left << std::setw(61) << " " << "|" << std::endl;
-    std::cout              << " ---------------------------------------------------------------" << std::endl;
+    std::cout              << " +-------------------------------------------------------------+" << std::endl;
 }

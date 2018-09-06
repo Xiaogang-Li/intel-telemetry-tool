@@ -1,51 +1,37 @@
-/*************************************************************************
-    > File Name: cpu.h
- ************************************************************************/
-#ifndef __PERF_TOOL_CPU_INFO__
-#define __PERF_TOOL_CPU_INFO__
+#ifndef __PERF_TOOL_CPU_H__
+#define __PERF_TOOL_CPU_H__
 
-#include <fstream>
+#include <string>
+#include <iostream>
+#include <sstream>
 #include <vector>
 
-class CpuInfo
+using namespace std;
+
+class Cpu
 {
 public:
-    CpuInfo();
-    virtual ~CpuInfo();
+    float GetUtilization(const std::string &statLine);
 
-    bool Init();
-    
-    std::string GetDeviceName() const { return m_model; }
-    std::string GetDeviceFamily() const { return m_family; }
-    uint32_t GetStepping() const { return m_stepping; }
-    uint32_t GetCacheSize() const { return m_cacheSize; }
-    uint32_t GetCoreNumber() const { return m_cpuCores; }
-    uint32_t GetProcesserNumber() const { return m_processer; }
-    
-    float    GetFrequency(uint32_t processerIdx);
-    float    GetTemperature();
+    static inline string ParseName(const std::string &statLine)
+    {
+	stringstream stream(statLine);
 
-    void Dump();
+	string name;
+	stream >> name;
+
+	return name;
+    }
+
+    void SetName(const string &name) { m_name = name; }
 private:
-    int CountProcessers(const std::ifstream& ifs);
-    
-    void GetTempValues(const std::string& cmd,
-                       std::vector<std::string>& container);
+    uint64_t m_userTime   = 1;
+    uint64_t m_niceTime   = 1;
+    uint64_t m_systemTime = 1;
+    uint64_t m_idleTime   = 1;
+    uint64_t m_totalTime  = 1;
 
-    void ReadDeviceName(const std::string& rawString);
-    void ReadDeviceFamily(const std::string& rawString);
-    void ReadStepping(const std::string& rawString);
-    void ReadCacheSize(const std::string& rawString);
-    void ReadCpuCores(const std::string& rawString);
-private:
-    std::string m_model     = "";
-    std::string m_family    = "";
-    uint32_t    m_stepping  = 0;
-    uint32_t    m_cacheSize = 0;
-    uint32_t    m_cpuCores  = 0;
-    uint32_t    m_processer = 0;
-    
-    std::ifstream m_ifs;
+    string m_name;
 };
 
 #endif
