@@ -7,7 +7,6 @@ link_directories("${PROJECT_SOURCE_DIR}/../build/lib")
 
 set(SOURCES_
     telemetry.cpp
-    cpuinfowindow.cpp
     display/bar.cpp
     display/displayable.cpp
     display/screen.cpp
