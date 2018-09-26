@@ -1,5 +1,5 @@
 # intel-telemetry-tool
-a library for measuring the state of intel devices (CPU, GPU, Memory, etc.)
+This is a library for measuring the state of intel devices (CPU, GPU, Memory, etc.)
 
 This tool has some dependencies, please install the following dependencies before build this tool.
 
