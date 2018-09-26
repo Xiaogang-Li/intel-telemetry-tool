@@ -21,4 +21,4 @@ add_executable( telemetry ${SOURCES_} ${HEADERS_} )
 
 set_target_properties(telemetry PROPERTIES LINKER_LANGUAGE CXX)
 
-target_link_libraries( telemetry libintem.so ncursesw)
+target_link_libraries( telemetry libintem.so ncurses)
