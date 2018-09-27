@@ -38,5 +38,6 @@ Or you can run the build.sh directly.
     Wang, Adeli <adeli.wang@intel.com>
     Wang, Wenjie <wenjie.wang@intel.com>
     Lin, Ben Y <ben.y.lin@intel.com>
-    Ma, Kevin <kevin.ma@intel.com>
     Li, Liang A <liang.a.li@intel.com>
+    Ma, Kevin <kevin.ma@intel.com>
+    Li, Xiaogang <xiaogang.li@intel.com>
