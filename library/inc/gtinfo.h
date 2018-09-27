@@ -19,7 +19,7 @@ public:
     const std::string& GetVendor() const { return m_vendor; }
     const uint32_t& GetEUNumber() const { return m_euNum; }
     const uint32_t& GetMemorySize() const { return m_maxMemorySize; }
-    const uint32_t& GetProfilingTimerResolution() const { return m_profilingTimerResolution; }
+    const float& GetProfilingTimerResolution() const { return m_profilingTimerResolution; }
 
     const std::vector<std::string>& GetHalfFloatingPointSupport() const
     {
@@ -60,7 +60,7 @@ protected:
     std::string m_vendor     = ""; 
     uint32_t    m_euNum      = 0;
     uint32_t    m_maxMemorySize = 0;
-    uint32_t    m_profilingTimerResolution = 0;
+    float    m_profilingTimerResolution = 0;
 
     std::vector<std::string> m_halfFPSupportList;
     std::vector<std::string> m_singleFPSupportList;

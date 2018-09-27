@@ -31,9 +31,18 @@ public:
     {
         std::string            data = ""; 
         std::string::size_type pos  = 0;
+        std::string::size_type pos2 = 0;
     
         pos  = rawString.find(':');
-        data = rawString.substr(pos+2);
+        pos2 = rawString.find_last_of(' ');
+	if (pos2 > pos)
+	{
+	    data = rawString.substr(pos+2, pos2);
+	}
+	else
+	{
+	    data = rawString.substr(pos+2);
+	}
     
         return data;
     }
@@ -55,6 +64,16 @@ public:
     static inline uint32_t ByteToKB(uint32_t sizeInByte) 
     {
         return (sizeInByte / 1024);
+    }
+
+    template <typename ReturnType>
+    static ReturnType Convert(const std::string& rawString)
+    {
+	ReturnType  data;
+	std::stringstream stream(rawString);
+	stream >> data;
+
+	return data;
     }
 };
 

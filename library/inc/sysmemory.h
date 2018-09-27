@@ -21,6 +21,15 @@ public:
 
     const std::string& GetSystemVersion() const { return m_systemVersion; }
     
+    uint32_t GetSpeed() const { return m_speed; }
+    uint32_t GetChannel() const { return m_channel; }
+    uint32_t GetCapacity() const { return m_capacity; }
+    uint32_t GetBitWidth() const { return m_bitWidth; }
+    const std::string& GetType()  const { return m_type; }
+
+    uint32_t GetIdealBandWidth();
+
+    
     void Dump();
 protected:
     void UpdateData();
@@ -30,6 +39,9 @@ protected:
     void ReadFreeSize(const std::string& rawString);
 
     void ReadSystemVersion();
+
+    std::string ReadData(const std::string& rawString, const std::string &prefix);
+    void ReadStaticInfo();
     
 private:
     static const std::string TOTAL_MEM_PREFIX;
@@ -43,6 +55,12 @@ private:
     uint32_t m_available = 0;
     uint32_t m_free      = 0;
     uint32_t m_cached    = 0;
+
+    uint32_t m_speed     = 0;
+    uint32_t m_channel   = 0;
+    uint32_t m_capacity  = 0;
+    uint32_t m_bitWidth  = 0;
+    std::string m_type   = "";
 
     std::string m_systemVersion = "";
 

@@ -36,10 +36,10 @@
  * give userspace flexibility.
  */
 #define INTEL_VGA_DEVICE(id, info) {		\
-	0x8086,	id,				\
-	~0, ~0,					\
-	0x030000, 0xff0000,			\
-	(unsigned long) info }
+	(uint32_t)0x8086,	(uint32_t)id,				\
+	(uint32_t)~0, (uint32_t)~0,					\
+	(uint32_t)0x030000, (uint32_t)0xff0000,			\
+	(long) info }
 
 #define INTEL_QUANTA_VGA_DEVICE(info) {		\
 	0x8086,	0x16a,				\

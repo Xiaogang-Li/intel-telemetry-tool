@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include "cpu.h"
+#include "intem.h"
 
 class CpuInfo
 {
@@ -29,6 +30,7 @@ public:
     float    GetTemperature();
 
     bool GetCPUUtilization(std::vector<std::pair<std::string, float>> &utils);
+    bool GetCPUUtilization(vector<intem::CpuUtil> &utils);
 
     const std::vector<std::string>& GetHalfFloatingPointSupport() const
     {

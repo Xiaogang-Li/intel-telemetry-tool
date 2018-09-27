@@ -14,6 +14,9 @@ public:
     void SetCustomDispContent(std::string content) { m_customDispContent = content; } 
     virtual void Draw(float value) = 0;
 
+    int GetX() const { return m_x; }
+    int GetY() const { return m_y; }
+
 protected:
     WINDOW *m_win   = nullptr;
     int    m_x      = 0;

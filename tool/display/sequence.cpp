@@ -52,6 +52,10 @@ void Sequence::Draw(float percent)
 
     int displayVal = (int)(percent / 100 * mdHeight * GRAPHIC_DOT_PER_LINE);
 
+    if(percent > 0.0 && displayVal == 0)
+    {
+        displayVal = 1;
+    }
 
     m_values.push_back(displayVal);
     if (m_values.size() > mdWidth - 3)
@@ -83,7 +87,7 @@ void Sequence::Draw(float percent)
         {
            mvwprintw(m_win, currY, currX, ".");
         }
-    
+
         currX -= 1;
     }
     wattroff(m_win, COLOR_PAIR(1));
@@ -92,6 +96,6 @@ void Sequence::Draw(float percent)
     mvwprintw(m_win, m_y, m_x + (mdWidth - m_title.size()) / 2, m_title.c_str());    
     if (m_customDispContent.length() > 0)
     {
-	mvwprintw(m_win, m_y + 1, m_x + (mdWidth - m_customDispContent.size()) / 2, m_customDispContent.c_str());    
+        mvwprintw(m_win, m_y + 1, m_x + (mdWidth - m_customDispContent.size()) / 2, m_customDispContent.c_str());    
     }
 }

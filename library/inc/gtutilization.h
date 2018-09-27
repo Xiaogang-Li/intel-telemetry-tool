@@ -3,6 +3,10 @@
 
 #include <fstream>
 #include <map>
+#include <vector>
+#include <thread>
+#include <pciaccess.h>
+#include "intem.h"
 
 #define INTEM_MMIO_GT_MEM       0x145040
 #define INTEM_MMIO_IA_MEM       0x145044
@@ -26,7 +30,17 @@ struct mmio_ring {
     int idle, wait, sema;
 };
 
-class GtUtil
+struct GfxInfo
+{
+    int gen;
+};
+
+using namespace std;
+
+using PciDevice = pci_device;
+using PciDeviceIterator = pci_device_iterator;
+
+class GtUtilization
 {
 public:
     enum UsageTag
@@ -49,11 +63,58 @@ public:
 	IOMB
     };
 
-    GtUtil();
-    ~GtUtil();
+    GtUtilization();
+    virtual ~GtUtilization();
 
     void GetGpuUtilization(std::map<UsageTag, float> &utils);    
+    void GetUtilization(vector<intem::GtUtil> &utils);    
+    void GetBandwidth(vector<intem::GtMemBandwidth> &bandwidths);
 
+private:
+    PciDevice *GetPciDevice();
+    const GfxInfo *GetGfxInfo(PciDevice *device);
+    void GetMmioIndexAndSize(const int &gen, int &index, int &size);
+    void *GetMmioAddr(PciDevice *device);
+    void ReturnMmioSpace(PciDevice *device);
+    void Forcewake();
+    void Sampling();
+
+    inline uint32_t ReadMmio(void *mmio, uint32_t reg)
+    {
+    	return *(volatile uint32_t *)((volatile char *)mmio + reg);
+    }
+
+
+private:
+    static constexpr uint32_t m_mmioMemGT = 0x145040;
+    static constexpr uint32_t m_mmioMemIA = 0x145044;
+    static constexpr uint32_t m_mmioMemIO = 0x145048;
+
+    static constexpr uint32_t m_mmioRingRcs  = 0x2030;
+    static constexpr uint32_t m_mmioRingVcs  = 0x12030;
+    static constexpr uint32_t m_mmioRingVcs2 = 0x1C030;
+    static constexpr uint32_t m_mmioRingVecs = 0x1A030;
+    static constexpr uint32_t m_mmioRingBcs  = 0x22030;
+
+    static constexpr uint32_t m_ringTailOffset = 0x00;
+    static constexpr uint32_t m_ringHeadOffset = 0x04;
+    static constexpr uint32_t m_ringTailMask = 0x000FFFF8;
+    static constexpr uint32_t m_ringHeadMask = 0x001FFFFC;
+
+    PciDevice *m_device = nullptr;
+    void      *m_mmio   = nullptr;
+
+    thread    *m_sampleThread = nullptr;
+    bool      m_quitThread    = false;
+
+    float m_utilCompute  = 0.0;
+    float m_utilFFCodec1 = 0.0;
+    float m_utilFFCodec2 = 0.0;
+    float m_utilFFVp1    = 0.0;
+
+    float m_mbGT         = 0.0;
+    float m_mbIA         = 0.0;
+    float m_mbIO         = 0.0;
 };
 
 #endif
