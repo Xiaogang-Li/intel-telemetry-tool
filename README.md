@@ -30,14 +30,14 @@ Or you can run the build.sh directly.
 ![screenshot](https://github.com/Xiaogang-Li/intel-telemetry-tool/blob/master/screenshot.png)
 
 ### Contributers
-    Bao, Bruce <bruce.bao@intel.com>
-    Cui, Yao <yao.cui@intel.com>
-    Tang, Jun <jun.tang@intel.com>
-    Qu, Pengfei <pengfei.qu@intel.com>
-    Wang, Binghu <binghu.wang@intel.com>
-    Wang, Adeli <adeli.wang@intel.com>
-    Wang, Wenjie <wenjie.wang@intel.com>
-    Lin, Ben Y <ben.y.lin@intel.com>
-    Li, Liang A <liang.a.li@intel.com>
-    Ma, Kevin <kevin.ma@intel.com>
-    Li, Xiaogang <xiaogang.li@intel.com>
+    Bao, Bruce
+    Cui, Yao
+    Tang, Jun
+    Qu, Pengfei
+    Wang, Binghu
+    Wang, Adeli
+    Wang, Wenjie
+    Lin, Ben Y
+    Li, Liang A
+    Ma, Kevin
+    Li, Xiaogang
