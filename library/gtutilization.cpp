@@ -108,6 +108,21 @@ static const struct GfxInfo broxton_info =
     .gen = 0111,
 };
 
+static const struct GfxInfo kabylake_info =
+{
+    .gen = 1000,
+};
+
+static const struct GfxInfo coffeelake_info =
+{
+    .gen = 1001,
+};
+
+static const struct GfxInfo icelake_info =
+{
+    .gen = 1010,
+};
+
 static const struct pci_id_match PCIIDXS[] =
 {
     INTEL_I830_IDS(&i830_info),
@@ -148,6 +163,9 @@ static const struct pci_id_match PCIIDXS[] =
 
     INTEL_SKL_IDS(&skylake_info),
     INTEL_BXT_IDS(&broxton_info),
+    INTEL_KBL_IDS(&kabylake_info),
+    INTEL_CFL_IDS(&coffeelake_info),
+    INTEL_ICL_11_IDS(&icelake_info),
 
     INTEL_VGA_DEVICE(PCI_MATCH_ANY, &generic_info),
 
