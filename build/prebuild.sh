@@ -96,7 +96,7 @@ cd build
 try_run 'cmake -DBUILD_TYPE=Release -DCMAKE_BUILD_TYPE=Release ../neo' 'Failed when run cmake'
 try_run 'make -j8 package' 'Failed to build the opencl'
 try_run 'sudo dpkg -i intel-opencl-*.x86_64-*.deb' 'Failed to install OpenCL'
-sudo cp -r opencl_headers/CL /usr/include/
+sudo cp -r ../opencl_headers/CL /usr/include/
 
 cd ../../
 echo Done
