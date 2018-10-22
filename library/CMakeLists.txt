@@ -51,7 +51,8 @@ if((NOT $(PCIACCESS)))
     Message("Some GPU dynamic information will can\nnot be shown. If you need the infomation,\nplease run the script preinstall.sh\nwhich is located at the 'build' directory.\n")
 endif()
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -o2 -std=c++11 -fPIC")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -o2 -std=c++11 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -fstack-protector-strong -fPIE -fPIC")
+set (CMAKE_EXE_LINKER_FLAGS "-z noexecstack -z relro -z now ")
 
 add_library(intem SHARED ${SOURCES_} ${HEADERS_})
 

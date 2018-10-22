@@ -15,7 +15,8 @@ set(SOURCES_
 
 include_directories(display)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O2 -std=c++11 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -fstack-protector-strong -fPIE -fPIC")
+set (CMAKE_EXE_LINKER_FLAGS "-z noexecstack -z relro -z now ")
 
 add_executable( telemetry ${SOURCES_} ${HEADERS_} )
 
