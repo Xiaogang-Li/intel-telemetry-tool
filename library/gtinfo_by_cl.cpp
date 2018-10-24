@@ -1,8 +1,11 @@
 #include "gtinfo_by_cl.h"
+#ifdef OPENCL_ENABLED
 #include "clinfo.h"
+#endif
 
 GtInfoByCl::GtInfoByCl()
 {
+#ifdef OPENCL_ENABLED
     ClInfo clInfo(CL_DEVICE_TYPE_GPU);
     if (clInfo.IsValid())
     {
@@ -27,4 +30,5 @@ GtInfoByCl::GtInfoByCl()
         fp = clInfo.GetClDevAttr<cl_device_fp_config>(CL_DEVICE_DOUBLE_FP_CONFIG);
         clInfo.ParseFloatPoint(fp, m_doubleFPSupportList);
     }
+#endif
 }

@@ -11,7 +11,9 @@
 #include "util.h"
 #include "cpu.h"
 #include "cpuinfo.h"
+#ifdef OPENCL_ENABLED
 #include "clinfo.h"
+#endif
 
 using namespace std;
 
@@ -38,6 +40,7 @@ CpuInfo::CpuInfo()
 
         PrepareCpuStatInfo();
 
+#ifdef PENCL_ENABLED
         ClInfo clInfo(CL_DEVICE_TYPE_CPU);
         if (clInfo.IsValid())
         {
@@ -53,6 +56,7 @@ CpuInfo::CpuInfo()
             fp = clInfo.GetClDevAttr<cl_device_fp_config>(CL_DEVICE_DOUBLE_FP_CONFIG);
             clInfo.ParseFloatPoint(fp, m_doubleFPSupportList);
         }
+#endif
     }
     catch (exception &e)
     {
