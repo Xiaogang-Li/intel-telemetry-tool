@@ -39,13 +39,13 @@ if((${VALIBRARY} STREQUAL "VALIBRARY-NOTFOUND") OR (${DRMLIBRARY} STREQUAL "DRML
     Message("The intel driver capability will can\nnot be shown. If you need the feature,\nplease run the script preinstall.sh\nwhich is located at the 'build' directory.\n")
 endif()
 
-set(OPENCL_ENALBED FALSE)
+set(OPENCLENABLED FALSE)
 if(${OPENCLLIBRARY} STREQUAL "OPENCLLIBRARY-NOTFOUND")
     Message("OpenCL library is not installed.")
     Message("Some CPU/GPU static information will can \nnot be shown. If you need the infomation,\nplease run the script preinstall.sh\nwhich is located at the 'build' directory.\n")
 else()
-    add_definitions(-DOPENCL_ENABLED)
-    set(OPENCL_ENALBED TRUE)
+    add_definitions("-DOPENCL_ENABLED")
+    set(OPENCLENABLED TRUE)
 endif()
 
 if(${PCIACCESS} STREQUAL "PCIACCESS-NOTFOUND")
@@ -56,8 +56,8 @@ endif()
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -o2 -std=c++11 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -fstack-protector-strong -fPIE -fPIC")
 set (CMAKE_EXE_LINKER_FLAGS "-z noexecstack -z relro -z now ")
 
+if(${OPENCLENABLED})
 
-if(${OPENCL_ENABLED})
 set(SOURCES_
     ${SOURCES_}
     clinfo.cpp
@@ -67,6 +67,7 @@ set(HEADERS_
     ${HEADERS_}
     inc/clinfo.h
 )
+
 endif()
 
 add_library(intem SHARED ${SOURCES_} ${HEADERS_})
@@ -80,9 +81,7 @@ set(REQUIRE_LIBS
     pthread
 )
 
-#target_link_libraries(intem va va-drm OpenCL pciaccess pthread)
-
-if(${OPENCL_ENABLED})
+if(${OPENCLENABLED})
     set(REQUIRE_LIBS
         ${REQUIRE_LIBS}
         OpenCL)

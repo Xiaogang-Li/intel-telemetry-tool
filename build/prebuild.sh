@@ -70,6 +70,7 @@ if [ "${installed}" = "" ]; then
     cd build
     try_run 'cmake ../media-driver' 'Failed to intall intel media driver.'
     try_run 'make -j8' 'Failed to intall intel media driver.'
+    try_run 'sudo make install' 'Failed to intall media driver.'
     cd ../../
     echo Done
 fi
