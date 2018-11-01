@@ -3563,7 +3563,7 @@ class toml_writer
 
             if (path_.back().find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcde"
                                                "fghijklmnopqrstuvwxyz0123456789"
-                                               "_-")
+                                               "_-.")
                 == std::string::npos)
             {
                 write(path_.back());
