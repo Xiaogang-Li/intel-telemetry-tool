@@ -38,7 +38,7 @@ uint32_t SysMemory::GetIdealBandWidth()
 {
     uint32_t bw = 0;
 
-    bw = m_speed * m_bitWidth * m_channel;
+    bw = m_speed * m_bitWidth * m_channel / 8;
 
     return bw;
 }
