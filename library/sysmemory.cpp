@@ -56,22 +56,16 @@ void SysMemory::ReadStaticInfo()
         while (getline(ifs, line))
         {
             std::string temp = "";
-            temp = ReadData(line, "Maximum Capacity:");
-            if (temp != "")
+            temp = ReadData(line, "Size:");
+            if (temp != "" && temp != "No")
             {
-                m_capacity = Util::Convert<uint32_t>(temp);
+                m_capacity += Util::Convert<uint32_t>(temp);
             }
 
             temp = ReadData(line, "Data Width:");
             if (temp != "")
             {
                 m_bitWidth = Util::Convert<uint32_t>(temp);
-            }
-
-            temp = ReadData(line, "Number Of Devices:");
-            if (temp != "")
-            {
-                m_channel = Util::Convert<uint32_t>(temp);
             }
 
             temp = ReadData(line, "Type:");
@@ -86,6 +80,24 @@ void SysMemory::ReadStaticInfo()
                 m_speed = Util::Convert<uint32_t>(temp);
             }
         }
+
+	ifs.close();
+
+        system("dmidecode | grep 'Interleaved Data Depth' | head -n 1 >./.meminfo");
+        ifs.open("./.meminfo");
+
+	if (getline(ifs, line))
+	{
+            std::string temp = "";
+            temp = ReadData(line, "Interleaved Data Depth:");
+            if (temp != "")
+            {
+                m_channel = Util::Convert<uint32_t>(temp);
+            }
+	}
+
+	ifs.close();
+
     }
     catch (std::exception &e)
     {

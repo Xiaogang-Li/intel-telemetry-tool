@@ -27,7 +27,7 @@ if [ "${is_ubuntu}" != "" ]; then
 fi
 
 #Download, build and install lib-drm
-#installed=`ldconfig -p | grep libdrm`
+installed=`ldconfig -p | grep libdrm`
 if [ "${installed}" = "" ]; then
     echo "Intalling libdrm ..."
     if [ ! -d "drm" ]; then
@@ -42,7 +42,7 @@ if [ "${installed}" = "" ]; then
 fi
 
 #Download, build and install libva 
-#installed=`ldconfig -p | grep libva`
+installed=`ldconfig -p | grep libva`
 if [ "${installed}" = "" ]; then
     echo "Intalling libva ..."
     if [ ! -d "libva" ]; then

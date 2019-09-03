@@ -92,7 +92,7 @@ void MemoryInfoDump(WINDOW *win, int &line, SysMemory &mem)
 {
     DrawLine(win, line);
     DrawTitle(win, line++, " Memory Infomation ");
-    mvwprintw(win, line++, 1, "Capacity  : %d GB", mem.GetCapacity());
+    mvwprintw(win, line++, 1, "Capacity  : %d GB", mem.GetCapacity() / 1024);
     mvwprintw(win, line++, 1, "GetType   : %s", mem.GetType().c_str());
     mvwprintw(win, line++, 1, "Channels  : %d", mem.GetChannel());
     mvwprintw(win, line++, 1, "Speed     : %d MHz", mem.GetSpeed());
