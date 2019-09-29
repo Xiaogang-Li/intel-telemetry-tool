@@ -274,6 +274,21 @@ void CpuDyncDump(WINDOW *win, CpuInfo &cpu,
     wattroff(win, COLOR_PAIR(color));
     wattroff(win, A_REVERSE | A_BOLD);
 
+
+    float totalCpuUtil = 0.0;
+    for(int j = 1; j < utils.size(); j++)
+    {
+	totalCpuUtil +=  utils[j].second;
+    }
+
+    std::stringstream totalCpuSs;
+    totalCpuSs << std::setiosflags(std::ios_base::fixed);
+    totalCpuSs.precision(2);
+    totalCpuSs << "Overall Cpu Utilization: " << totalCpuUtil << "%)";
+    wattron(win, A_BOLD);
+    mvwprintw(win, disps[0]->GetY() - 2, 1, "%s", totalCpuSs.str().c_str());
+    wattroff(win, A_BOLD);
+
     int i = 1;
     for (i = 0; i < disps.size(); i++)
     {
