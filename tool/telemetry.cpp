@@ -18,6 +18,8 @@
 #include "mediacapability.h"
 #include "gtutilization.h"
 
+#define LITE_MODE_OPTION "-lite" // only show GPU utilization without graphics
+
 using namespace std;
 
 void DumpFloatPoint(WINDOW *win, int &line, const std::vector<std::string> &fpList,
@@ -535,8 +537,50 @@ void DrawEngine()
     }
 }
 
-int main()
+void LiteMode(void)
 {
+    GtUtilization gtutilInfo;
+    std::map<GtUtilization::UsageTag, float> utils;
+    std::string name;
+
+    while (1) 
+    {
+        gtutilInfo.GetGpuUtilization(utils);
+        for (auto util : utils)
+        {
+	    if (util.first < GtUtilization::TOTALMB)
+	    {
+                GetGPUsageName(util.first, name);
+                
+		std::stringstream ss;
+                ss.precision(2);
+                ss << std::setiosflags(std::ios_base::fixed);
+                ss << name << " (" << util.second << "%)";
+
+	        cout << ss.str() << " || ";
+	    }
+	}
+	cout << "\n";
+	utils.clear();
+        this_thread::sleep_for(chrono::microseconds(1000000));	
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc > 1)
+    {
+	std::string option(argv[1]);
+	std::string lite_mode(LITE_MODE_OPTION);
+
+	// only show GPU utilization without graphics for easier profiling data collection
+	if (option.compare(lite_mode) == 0)
+	{
+            LiteMode();
+            return 0;
+	}
+    }
+
     Screen screen;
     screen.Init();
 
