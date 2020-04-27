@@ -123,6 +123,11 @@ static const struct GfxInfo icelake_info =
     .gen = 1010,
 };
 
+static const struct GfxInfo tigerlake_info = 
+{
+    .gen = 1011,
+};
+
 static const struct pci_id_match PCIIDXS[] =
 {
     INTEL_I830_IDS(&i830_info),
@@ -166,6 +171,7 @@ static const struct pci_id_match PCIIDXS[] =
     INTEL_KBL_IDS(&kabylake_info),
     INTEL_CFL_IDS(&coffeelake_info),
     INTEL_ICL_11_IDS(&icelake_info),
+    INTEL_TGL_12_IDS(&tigerlake_info),
 
     INTEL_VGA_DEVICE(PCI_MATCH_ANY, &generic_info),
 
