@@ -410,6 +410,24 @@ void GtUtilization::Sampling()
     
     uint64_t ring_idle_rcs, ring_idle_vcs, ring_idle_vcs2, ring_idle_vecs, ring_idle_bcs, ring_time;
     uint32_t mem_gt_begin, mem_gt_end, mem_ia_begin, mem_ia_end, mem_io_begin, mem_io_end;
+    uint32_t mmioRingVcs, mmioRingVcs2, mmioRingVecs;
+    const struct GfxInfo *info;
+
+    info = GetGfxInfo(m_device);
+    /* tigerlake */
+    if (info->gen == tigerlake_info.gen)
+    {
+        mmioRingVcs = m_mmioRingVcs_tgl;
+        mmioRingVcs2 = m_mmioRingVcs2_tgl;
+        mmioRingVecs = m_mmioRingVecs_tgl;
+    }
+    else
+    {
+        mmioRingVcs = m_mmioRingVcs;
+        mmioRingVcs2 = m_mmioRingVcs2;
+        mmioRingVecs = m_mmioRingVecs;
+    }
+
 
     while (!m_quitThread)
     {
@@ -450,20 +468,20 @@ void GtUtilization::Sampling()
                 ring_idle_rcs++;
 
             // VCS
-            ring_head = ReadMmio(m_mmio, m_mmioRingVcs + m_ringHeadOffset) & m_ringHeadMask;
-            ring_tail = ReadMmio(m_mmio, m_mmioRingVcs + m_ringTailOffset) & m_ringTailMask;
+            ring_head = ReadMmio(m_mmio, mmioRingVcs + m_ringHeadOffset) & m_ringHeadMask;
+            ring_tail = ReadMmio(m_mmio, mmioRingVcs + m_ringTailOffset) & m_ringTailMask;
             if (ring_tail == ring_head)
                 ring_idle_vcs++;
 
             // VCS2
-            ring_head = ReadMmio(m_mmio, m_mmioRingVcs2 + m_ringHeadOffset) & m_ringHeadMask;
-            ring_tail = ReadMmio(m_mmio, m_mmioRingVcs2 + m_ringTailOffset) & m_ringTailMask;
+            ring_head = ReadMmio(m_mmio, mmioRingVcs2 + m_ringHeadOffset) & m_ringHeadMask;
+            ring_tail = ReadMmio(m_mmio, mmioRingVcs2 + m_ringTailOffset) & m_ringTailMask;
             if (ring_tail == ring_head)
                 ring_idle_vcs2++;
 
             // VECS
-            ring_head = ReadMmio(m_mmio, m_mmioRingVecs + m_ringHeadOffset) & m_ringHeadMask;
-            ring_tail = ReadMmio(m_mmio, m_mmioRingVecs + m_ringTailOffset) & m_ringTailMask;
+            ring_head = ReadMmio(m_mmio, mmioRingVecs + m_ringHeadOffset) & m_ringHeadMask;
+            ring_tail = ReadMmio(m_mmio, mmioRingVecs + m_ringTailOffset) & m_ringTailMask;
             if (ring_tail == ring_head)
                 ring_idle_vecs++;
 
