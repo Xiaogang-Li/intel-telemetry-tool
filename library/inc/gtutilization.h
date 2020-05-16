@@ -91,9 +91,15 @@ private:
     static constexpr uint32_t m_mmioMemIO = 0x145048;
 
     static constexpr uint32_t m_mmioRingRcs  = 0x2030;
+
     static constexpr uint32_t m_mmioRingVcs  = 0x12030;
     static constexpr uint32_t m_mmioRingVcs2 = 0x1C030;
     static constexpr uint32_t m_mmioRingVecs = 0x1A030;
+    /* Tigerlake */
+    static constexpr uint32_t m_mmioRingVcs_tgl  = 0x1C0030;
+    static constexpr uint32_t m_mmioRingVcs2_tgl = 0x1D0030;
+    static constexpr uint32_t m_mmioRingVecs_tgl = 0x1C8030;
+ 
     static constexpr uint32_t m_mmioRingBcs  = 0x22030;
 
     static constexpr uint32_t m_ringTailOffset = 0x00;
