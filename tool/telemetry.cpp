@@ -555,7 +555,7 @@ void LiteMode(void)
 		std::stringstream ss;
                 ss.precision(2);
                 ss << std::setiosflags(std::ios_base::fixed);
-                ss << name << " (" << util.second << "%)";
+                ss << name << " " << util.second;
 
 	        cout << ss.str() << " || ";
 	    }
