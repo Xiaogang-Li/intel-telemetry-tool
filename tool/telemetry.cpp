@@ -537,14 +537,28 @@ void DrawEngine()
     }
 }
 
-void LiteMode(void)
+/* 
+ * interval: sleep time to refresh the GPU profiling data in seconds. 
+ *           Internally GPU profiling is calcuated every 1 seconds, so better 
+ *           to set this valua as 1. 
+ * loop: application will exit after loop times. 0 means never exists
+ */
+void LiteMode(int interval, int loop)
 {
     GtUtilization gtutilInfo;
     std::map<GtUtilization::UsageTag, float> utils;
     std::string name;
+    int i = 0;
+
+
+    cout << "Warning: Internally this tool will update GPU profiling data each seconds, suggest set interval as 1" << "\n";
+    cout << "interval: " << interval << "\n";
+    cout << "loop: " << loop << "\n";
 
     while (1) 
     {
+        this_thread::sleep_for(chrono::microseconds(1000000 * interval));
+
         gtutilInfo.GetGpuUtilization(utils);
         for (auto util : utils)
         {
@@ -555,14 +569,17 @@ void LiteMode(void)
 		std::stringstream ss;
                 ss.precision(2);
                 ss << std::setiosflags(std::ios_base::fixed);
-                ss << name << " (" << util.second << "%)";
+                ss << name << " " << util.second;
 
 	        cout << ss.str() << " || ";
 	    }
 	}
 	cout << "\n";
 	utils.clear();
-        this_thread::sleep_for(chrono::microseconds(1000000));	
+
+	i ++;
+	if (i == loop)
+		return;
     }
 }
 
@@ -570,13 +587,19 @@ int main(int argc, char *argv[])
 {
     if (argc > 1)
     {
-	std::string option(argv[1]);
 	std::string lite_mode(LITE_MODE_OPTION);
+	std::string option(argv[1]);
+	int interval = 1, loop = 0;
+	if (argc == 4)
+	{
+	    interval = atoi(argv[2]);
+	    loop = atoi(argv[3]);
+	}
 
 	// only show GPU utilization without graphics for easier profiling data collection
 	if (option.compare(lite_mode) == 0)
 	{
-            LiteMode();
+            LiteMode(interval, loop);
             return 0;
 	}
     }
